@@ -18,9 +18,11 @@ public class ChineseSegmentationImpl implements ChineseSegmentation {
         List<String> words = new ArrayList<>();
 
         for(StockInfo stockInfo : stocks){
-            String str = stockInfo.answer;
-            Result result = ToAnalysis.parse(str);
-            List<Term> terms = result.getTerms();
+//            String str = stockInfo.answer;
+//            Result result = ToAnalysis.parse(str);
+//            List<Term> terms = result.getTerms();
+
+            List<Term> terms = getWordsFromStock(stockInfo);
 
 //            //设置词性
 //            Set<String> expectedNature = new HashSet<String>() {{
@@ -51,6 +53,12 @@ public class ChineseSegmentationImpl implements ChineseSegmentation {
             }
         }
         return words;
+    }
+
+    public List<Term> getWordsFromStock(StockInfo stockInfo){
+        String str = stockInfo.answer;
+        Result result = ToAnalysis.parse(str);
+        return result.getTerms();
     }
 }
 
