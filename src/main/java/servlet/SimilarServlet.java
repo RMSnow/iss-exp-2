@@ -2,8 +2,6 @@ package servlet;
 
 import recommend.Recommender;
 import recommend.RecommenderImpl;
-import segmenter.ChineseSegmenterImpl;
-import tf_idf.TF_IDFImpl;
 import util.FileHandler;
 import util.FileHandlerImpl;
 import vo.StockInfo;

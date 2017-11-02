@@ -1,16 +1,13 @@
 package servlet;
 
 import javafx.util.Pair;
-import recommend.Recommender;
-import recommend.RecommenderImpl;
-import segmenter.ChineseSegmenter;
-import segmenter.ChineseSegmenterImpl;
+import segmenter.ChineseSegmentation;
+import segmenter.ChineseSegmentationImpl;
 import tf_idf.TF_IDF;
 import tf_idf.TF_IDFImpl;
 import util.FileHandler;
 import util.FileHandlerImpl;
 import vo.StockInfo;
-import vo.UserInterest;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +20,7 @@ import java.util.*;
 @WebServlet("/index")
 public class IndexServlet extends HttpServlet {
 
-    private ChineseSegmenter segmenter;
+    private ChineseSegmentation segmentation;
 
     private TF_IDF tf_idf;
 
@@ -31,10 +28,10 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        // 数据处理
+        // 数据处理
         StockInfo[] stockInfos = fileHandler.getStockInfoFromFile(this.getClass().getClassLoader().getResource(".").getPath() + "data.txt");
         // 分词
-        List<String> words = segmenter.getWordsFromInput(stockInfos);
+        List<String> words = segmentation.getWordsFromInput(stockInfos);
         // 词频统计
         Pair<String,Double>[] maps = tf_idf.getResult(words,stockInfos);
 
@@ -60,7 +57,7 @@ public class IndexServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        segmenter = new ChineseSegmenterImpl();
+        segmentation = new ChineseSegmentationImpl();
         tf_idf = new TF_IDFImpl();
         fileHandler = new FileHandlerImpl();
     }
